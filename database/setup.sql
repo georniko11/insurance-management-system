@@ -1,3 +1,4 @@
+\encoding UTF8
 \set ON_ERROR_STOP on
 
 \ir 'schema/001_create_customers.sql'
