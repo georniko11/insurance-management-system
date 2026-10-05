@@ -1,0 +1,13 @@
+.venv/
+__pycache__/
+*.py[cod]
+.env
+.env.*
+!.env.example
+instance/
+*.dump
+*.backup
+*.log
+.vscode/
+Thumbs.db
+desktop.ini

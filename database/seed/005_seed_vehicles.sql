@@ -1,0 +1,22 @@
+INSERT INTO vehicles (customer_id, plate, vehicle_type, make, model)
+VALUES
+    (1,  'ΑΒΑ1234', 'car', 'Toyota', 'Corolla'),
+    (2,  'ΒΚΜ4587', 'car', 'Volkswagen', 'Polo'),
+    (3,  'ΖΧΡ7821', 'car', 'Ford', 'Focus'),
+    (4,  'ΙΚΝ3456', 'car', 'Peugeot', '208'),
+    (5,  'ΜΡΤ9012', 'car', 'Opel', 'Corsa'),
+    (6,  'ΝΒΧ5678', 'car', 'Hyundai', 'i20'),
+    (7,  'ΡΚΑ2345', 'car', 'Nissan', 'Qashqai'),
+    (8,  'ΤΖΜ6789', 'car', 'Fiat', 'Panda'),
+    (9,  'ΧΚΡ1122', 'car', 'Renault', 'Clio'),
+    (10, 'ΥΒΝ3344', 'car', 'Suzuki', 'Swift'),
+    (11, 'ΕΚΤ5566', 'car', 'Skoda', 'Fabia'),
+    (12, 'ΚΜΗ7788', 'car', 'Kia', 'Stonic'),
+    (13, 'ΡΒΚ9900', 'car', 'Citroen', 'C3'),
+    (14, 'ΙΧΑ2468', 'car', 'Honda', 'Civic'),
+    (15, 'ΜΚΡ1357', 'car', 'Mercedes-Benz', 'A180'),
+    (17, 'ΝΧΤ8642', 'car', 'BMW', '116i'),
+    (19, 'ΖΜΚ9753', 'car', 'Audi', 'A3'),
+    (21, 'ΚΒΡ7531', 'car', 'Seat', 'Ibiza'),
+    (23, 'ΤΜΝ6420', 'car', 'Dacia', 'Sandero'),
+    (24, 'ΧΡΚ5319', 'car', 'Volvo', 'V40');
