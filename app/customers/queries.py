@@ -169,13 +169,23 @@ def count_active_policies(customer_id):
     result = conn.execute("""
         SELECT COUNT(*) AS active_policy_count
         FROM policies
-        WHERE customer_id = %s
-          AND start_date <= CURRENT_DATE
-          AND end_date > CURRENT_DATE
-          AND (
-              cancellation_date IS NULL
-              OR cancellation_date > CURRENT_DATE
-          )
+       WHERE customer_id = %s
+  AND cancellation_date IS NULL
+  AND end_date >= CURRENT_DATE
+
     """, (customer_id,)).fetchone()
 
     return result["active_policy_count"]
+
+def count_pending_renewals(customer_id):
+    conn = get_db()
+
+    result = conn.execute("""
+        SELECT COUNT(*) AS pending_renewal_count
+        FROM renewals r
+        JOIN policies p ON p.policy_id = r.policy_id
+        WHERE p.customer_id = %s
+          AND r.status NOT IN ('renewed', 'lost')
+    """, (customer_id,)).fetchone()
+
+    return result["pending_renewal_count"]

@@ -28,14 +28,44 @@
             >
                 Επεξεργασία Πελάτη
             </a>
+        </div>
+        {% if archive_warning %}
 
+         <p>
+    Ο πελάτης έχει {{ active_count }} ενεργά ή μελλοντικά ασφαλιστήρια
+    και {{ pending_count }} εκκρεμείς ανανεώσεις.
+</p>
+<p>
+    Η αρχειοθέτηση δεν ακυρώνει τα ασφαλιστήρια
+    ούτε ολοκληρώνει τις ανανεώσεις.
+</p>
+
+        <form
+            method="POST"
+            action="{{ url_for('customers.archive_customer_route', customer_id=customer['customer_id']) }}"
+            class="mt-3"
+        >
+            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+            <input type="hidden" name="confirm_archive" value="yes">
+
+            <button type="submit" class="btn btn-danger">
+                Επιβεβαίωση αρχειοθέτησης
+            </button>
+
+            <a href="{{ url_for('customers.customer_detail', customer_id=customer['customer_id']) }}"
+               class="btn btn-secondary">
+                Ακύρωση
+            </a>
+        </form>
+    </div>
+{% endif %}
             <form
                 method="POST"
                 action="{{ url_for('customers.archive_customer_route', customer_id=customer['customer_id']) }}"
-                onsubmit="return confirm('Ο πελάτης έχει {{ active_count }} ενεργά ασφαλιστήρια. Θέλεις να συνεχίσεις με την αρχειοθέτηση;');"
+
             >
                 <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
-                <input type="hidden" name="confirm_archive" value="yes">
+
                 <button type="submit" class="btn btn-outline-danger">
                     Αρχειοθέτηση Πελάτη
                 </button>

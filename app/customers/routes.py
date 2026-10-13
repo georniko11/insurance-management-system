@@ -14,7 +14,8 @@ from app.customers.queries import (
     archive_customer,
     unarchive_customer,
     get_customers_by_status,
-    count_active_policies
+    count_active_policies,
+    count_pending_renewals,
 )
 
 
@@ -234,26 +235,37 @@ def edit_customer(customer_id):
         )
     )
 
-
 @customers_bp.route("/customers/<int:customer_id>/archive", methods=["POST"])
 def archive_customer_route(customer_id):
-        customer = get_customer_by_id(customer_id)
+    customer = get_customer_by_id(customer_id)
 
-        if customer is None:
-           abort(404)
+    if customer is None:
+        abort(404)
 
-        if customer["is_archived"]:
-           return "Ο πελάτης είναι ήδη αρχειοθετημένος.", 409
-        active_count = count_active_policies(customer_id)
-        if active_count > 0 and request.form.get("confirm_archive") != "yes":
-           return (
-        f"Ο πελάτης έχει {active_count} ενεργά ασφαλιστήρια. "
-        "Απαιτείται επιβεβαίωση αρχειοθέτησης.",
-        409
-    )
-        archive_customer(customer_id)
+    if customer["is_archived"]:
+        return "Ο πελάτης είναι ήδη αρχειοθετημένος.", 409
 
-        return redirect(url_for("customers.list_customers"))
+    active_count = count_active_policies(customer_id)
+    pending_count = count_pending_renewals(customer_id)
+
+    if (active_count > 0 or pending_count > 0) and request.form.get("confirm_archive") != "yes":
+
+        phones = get_customer_phones(customer_id)
+        emails = get_customer_emails(customer_id)
+
+        return render_template(
+            "customer_detail.html",
+            customer=customer,
+            phones=phones,
+            emails=emails,
+            active_count=active_count,
+            pending_count=pending_count,
+            archive_warning=True
+        )
+
+    archive_customer(customer_id)
+
+    return redirect(url_for("customers.list_customers"))
 
 @customers_bp.route("/customers/<int:customer_id>/unarchive", methods=["POST"])
 def unarchive_customer_route(customer_id):
