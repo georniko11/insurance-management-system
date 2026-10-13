@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+
+    <div class="mb-4">
+    <h2 class="fw-bold">Πελάτες</h2>
+    <p class="text-secondary mb-0">
+        Διαχείριση πελατολογίου
+    </p>
+    </div>
+    {% if customers %}
+    <div class="card shadow-sm border-0 p-3">
+
+   <table class="table table-hover">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Όνομα</th>
+            <th>Επώνυμο</th>
+            <th>ΑΦΜ</th>
+        </tr>
+    </thead>
+
+    <tbody>
+        {% for customer in customers %}
+        <tr>
+            <td>{{ customer["customer_id"] }}</td>
+            <td>
+            <a href="{{ url_for('customers.customer_detail', customer_id=customer['customer_id']) }}">
+        {{ customer["first_name"] }}
+            </a>
+            </td>
+            <td>{{ customer["last_name"] }}</td>
+            <td>{{ customer["afm"] }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+</div>
+{% else %}
+     <p>Δεν υπάρχουν ενεργοί πελάτες. </p>
+{% endif %}
+
+
+
+{% endblock %}

@@ -1,7 +1,7 @@
 INSERT INTO users (name, email, password_hash)
 VALUES
     (
-        'George Nikolakakis',
+        'Demo Admin',
         'george@grafeio.example',
         'scrypt:32768:8:1$95kUcLuJp1ky0Vma$0cee734226a9175f08a2522b04d5e3fbabcd9f93f7fc401d047d1f794533cfc602ec25f119c7e737de2e6f7bf900cfcb446faf5ba08e43cb1213e3b324df5079'
     ),

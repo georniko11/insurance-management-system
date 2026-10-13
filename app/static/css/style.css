@@ -1,0 +1,57 @@
+body {
+    background-color: #F2F5FA;
+    color: #182C4A;
+    font-family: 'Inter', sans-serif;
+}
+.custom-navbar {
+    background-color: #182C4A;
+}
+/* Βασική γραμματοσειρά */
+body {
+    font-size: 15px;
+    line-height: 1.6;
+}
+
+/* Κεντρικοί τίτλοι */
+h1, h2 {
+    font-size: 26px;
+    font-weight: 700;
+}
+
+/* Πίνακας πελατών */
+.table {
+    font-size: 16px;
+}
+
+.table th {
+    font-size: 14px;
+    font-weight: 600;
+    color: #64748B;
+    padding: 14px 13px;
+}
+
+.table td {
+    font-size: 16px;
+    padding: 13px;
+    vertical-align: middle;
+}
+
+/* Ονόματα πελατών */
+.table td a {
+    color: #182C4A;
+    font-weight: 600;
+    text-decoration: none;
+}
+
+.table td a:hover {
+    color: #2563EB;
+    text-decoration: underline;
+}
+
+
+/* Κουμπιά */
+.btn {
+    font-size: 14px;
+    font-weight: 500;
+    padding: 10px 16px;
+}
