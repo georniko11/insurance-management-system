@@ -1,3 +1,4 @@
+
 {% extends "base.html" %}
 
 {% block content %}
@@ -5,64 +6,57 @@
 <h2 class="fw-bold mb-4">Επεξεργασία Πελάτη</h2>
 
 <div class="card shadow-sm border-0 p-4">
+
+    {% if error %}
+    <div class="alert alert-danger" role="alert">
+        {{ error }}
+    </div>
+    {% endif %}
+
     <form method="POST">
         <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
 
         <div class="mb-3">
-            <label class="form-label">Όνομα *</label>
-            <input
-                type="text"
-                name="first_name"
-                class="form-control"
-                value="{{ customer['first_name'] }}"
-                required
-            >
+            <label for="first_name" class="form-label">Όνομα *</label>
+            <input type="text" id="first_name" name="first_name"
+                   class="form-control" maxlength="50"
+                   value="{{ form_data.get('first_name', '') }}"
+                   required>
         </div>
 
         <div class="mb-3">
-            <label class="form-label">Επώνυμο *</label>
-            <input
-                type="text"
-                name="last_name"
-                class="form-control"
-                value="{{ customer['last_name'] }}"
-                required
-            >
+            <label for="last_name" class="form-label">Επώνυμο *</label>
+            <input type="text" id="last_name" name="last_name"
+                   class="form-control" maxlength="50"
+                   value="{{ form_data.get('last_name', '') }}"
+                   required>
         </div>
 
         <div class="mb-3">
-            <label class="form-label">ΑΦΜ</label>
-            <input
-                type="text"
-                name="afm"
-                class="form-control"
-                value="{{ customer['afm'] or '' }}"
-            >
+            <label for="afm" class="form-label">ΑΦΜ</label>
+            <input type="text" id="afm" name="afm"
+                   class="form-control" maxlength="9"
+                   inputmode="numeric"
+                   value="{{ form_data.get('afm', '') }}">
         </div>
 
         <div class="mb-3">
-            <label class="form-label">Διεύθυνση</label>
-            <input
-                type="text"
-                name="address"
-                class="form-control"
-                value="{{ customer['address'] or '' }}"
-            >
+            <label for="address" class="form-label">Διεύθυνση</label>
+            <input type="text" id="address" name="address"
+                   class="form-control" maxlength="200"
+                   value="{{ form_data.get('address', '') }}">
         </div>
 
         <div class="mb-3">
-            <label class="form-label">Σημειώσεις</label>
-            <textarea
-                name="notes"
-                class="form-control"
-                rows="3"
-            >{{ customer['notes'] or '' }}</textarea>
+            <label for="notes" class="form-label">Σημειώσεις</label>
+            <textarea id="notes" name="notes"
+                      class="form-control"
+                      rows="3">{{ form_data.get('notes', '') }}</textarea>
         </div>
 
         <button type="submit" class="btn btn-primary">
             Αποθήκευση Αλλαγών
         </button>
-
     </form>
 </div>
 

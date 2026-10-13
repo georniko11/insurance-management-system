@@ -32,10 +32,10 @@
             <form
                 method="POST"
                 action="{{ url_for('customers.archive_customer_route', customer_id=customer['customer_id']) }}"
-                onsubmit="return confirm('Είσαι σίγουρος ότι θέλεις να αρχειοθετήσεις αυτόν τον πελάτη;');"
+                onsubmit="return confirm('Ο πελάτης έχει {{ active_count }} ενεργά ασφαλιστήρια. Θέλεις να συνεχίσεις με την αρχειοθέτηση;');"
             >
                 <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
-
+                <input type="hidden" name="confirm_archive" value="yes">
                 <button type="submit" class="btn btn-outline-danger">
                     Αρχειοθέτηση Πελάτη
                 </button>

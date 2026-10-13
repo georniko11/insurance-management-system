@@ -1,3 +1,4 @@
+
 {% extends "base.html" %}
 
 {% block content %}
@@ -6,52 +7,68 @@
 
 <div class="card shadow-sm border-0 p-4">
 
+    {% if error %}
+    <div class="alert alert-danger" role="alert">
+        {{ error }}
+    </div>
+    {% endif %}
+
     <form method="POST">
         <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
 
         <div class="mb-3">
-            <label class="form-label">Όνομα *</label>
-            <input type="text" name="first_name"
-                   class="form-control" required>
+            <label for="first_name" class="form-label">Όνομα *</label>
+            <input type="text" id="first_name" name="first_name"
+                   class="form-control" maxlength="50"
+                   value="{{ form_data.get('first_name', '') }}"
+                   required>
         </div>
 
         <div class="mb-3">
-            <label class="form-label">Επώνυμο *</label>
-            <input type="text" name="last_name"
-                   class="form-control" required>
-        </div>
-        <div class="mb-3">
-            <label class="form-label">Τηλέφωνο</label>
-            <input type="tel"
-              name="phone_number"
-              class="form-control">
+            <label for="last_name" class="form-label">Επώνυμο *</label>
+            <input type="text" id="last_name" name="last_name"
+                   class="form-control" maxlength="50"
+                   value="{{ form_data.get('last_name', '') }}"
+                   required>
         </div>
 
         <div class="mb-3">
-            <label class="form-label">ΑΦΜ</label>
-            <input type="text" name="afm"
-                   class="form-control">
+            <label for="phone_number" class="form-label">Τηλέφωνο *</label>
+            <input type="tel" id="phone_number" name="phone_number"
+                   class="form-control" maxlength="30"
+                   value="{{ form_data.get('phone_number', '') }}"
+                   required>
+            <div class="form-text">
+                7–15 ψηφία. Επιτρέπονται κενά, παύλες και προαιρετικό +.
+            </div>
         </div>
 
         <div class="mb-3">
-            <label class="form-label">Διεύθυνση</label>
-            <input type="text" name="address"
-                   class="form-control">
+            <label for="afm" class="form-label">ΑΦΜ</label>
+            <input type="text" id="afm" name="afm"
+                   class="form-control" maxlength="9"
+                   inputmode="numeric"
+                   value="{{ form_data.get('afm', '') }}">
         </div>
 
         <div class="mb-3">
-            <label class="form-label">Σημειώσεις</label>
-            <textarea name="notes"
+            <label for="address" class="form-label">Διεύθυνση</label>
+            <input type="text" id="address" name="address"
+                   class="form-control" maxlength="200"
+                   value="{{ form_data.get('address', '') }}">
+        </div>
+
+        <div class="mb-3">
+            <label for="notes" class="form-label">Σημειώσεις</label>
+            <textarea id="notes" name="notes"
                       class="form-control"
-                      rows="3"></textarea>
+                      rows="3">{{ form_data.get('notes', '') }}</textarea>
         </div>
 
         <button type="submit" class="btn btn-primary">
             Αποθήκευση Πελάτη
         </button>
-
     </form>
-
 </div>
 
 {% endblock %}

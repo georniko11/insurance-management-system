@@ -139,3 +139,43 @@ def unarchive_customer(customer_id):
         """, (customer_id,))
 
     return result.rowcount
+
+
+def get_customers_by_status(status="active"):
+    conn = get_db()
+
+    if status == "active":
+        condition = "WHERE is_archived = false"
+    elif status == "archived":
+        condition = "WHERE is_archived = true"
+    elif status == "all":
+        condition = ""
+    else:
+        raise ValueError("Invalid customer status")
+
+    cursor = conn.execute(f"""
+        SELECT customer_id, first_name, last_name,
+               afm, is_archived
+        FROM customers
+        {condition}
+        ORDER BY last_name, first_name
+    """)
+
+    return cursor.fetchall()
+
+def count_active_policies(customer_id):
+    conn = get_db()
+
+    result = conn.execute("""
+        SELECT COUNT(*) AS active_policy_count
+        FROM policies
+        WHERE customer_id = %s
+          AND start_date <= CURRENT_DATE
+          AND end_date > CURRENT_DATE
+          AND (
+              cancellation_date IS NULL
+              OR cancellation_date > CURRENT_DATE
+          )
+    """, (customer_id,)).fetchone()
+
+    return result["active_policy_count"]
