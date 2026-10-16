@@ -1,0 +1,65 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="container-fluid px-4 mt-4">
+<h2 class="mb-4">Ασφαλιστήρια Συμβόλαια</h2>
+
+    <table class="table table-striped table-hover">
+        <thead>
+            <tr>
+                <th>Αριθμός Συμβολαίου</th>
+                <th>Πελάτης</th>
+                <th>Ασφαλιστική</th>
+                <th>Τύπος</th>
+                <th>Έναρξη</th>
+                <th>Λήξη</th>
+                <th>Ασφάλιστρο</th>
+                <th>Κατάσταση</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            {% for policy in policies %}
+            <tr>
+                <td>
+    <a href="{{ url_for('policies.policy_detail', policy_id=policy.policy_id) }}">
+        {{ policy.policy_number }}
+    </a>
+</td>
+                <td>{{ policy.first_name }} {{ policy.last_name }}</td>
+                <td>{{ policy.insurer_name }}</td>
+                <td>{{ policy.policy_type }}</td>
+                <td>{{ policy.start_date.strftime('%d/%m/%Y') }}</td>
+                <td>{{ policy.end_date.strftime('%d/%m/%Y') }}</td>
+                <td>{{ policy.premium }} €</td>
+                <td>
+    {% if policy.status == 'active' %}
+        <span class="badge bg-success">Ενεργό</span>
+
+    {% elif policy.status == 'expired' %}
+        <span class="badge bg-danger">Ληγμένο</span>
+
+    {% elif policy.status == 'cancelled' %}
+        <span class="badge bg-secondary">Ακυρωμένο</span>
+
+    {% elif policy.status == 'renewed' %}
+        <span class="badge bg-info text-dark">Ανανεωμένο</span>
+
+    {% elif policy.status == 'future' %}
+        <span class="badge bg-warning text-dark">Μελλοντικό</span>
+    {% endif %}
+</td>
+            </tr>
+            {% else %}
+            <tr>
+                <td colspan="8" class="text-center">
+                    Δεν βρέθηκαν ασφαλιστήρια.
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+{% endblock %}

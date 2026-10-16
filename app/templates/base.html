@@ -21,11 +21,15 @@
         <div class="navbar-nav">
             <a class="nav-link" href="{{ url_for('main.home') }}">Αρχική</a>
             <a class="nav-link" href="{{ url_for('customers.list_customers') }}">Πελάτες</a>
+             <a class="nav-link" href="{{ url_for('policies.list_policies') }}">Ασφαλιστήρια</a>
         </div>
     </div>
+
+
+
 </nav>
 
-    <div class="container mt-4">
+    <div class="container-fluid px-4 mt-4">
         {% block content %}
         {% endblock %}
     </div>

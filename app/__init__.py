@@ -18,6 +18,8 @@ def create_app(config_class=Config):
     app.register_blueprint(main)
     from app.customers import customers_bp
     app.register_blueprint(customers_bp)
+    from app.policies import policies_bp
+    app.register_blueprint(policies_bp)
 
     csrf = CSRFProtect()
     csrf.init_app(app)

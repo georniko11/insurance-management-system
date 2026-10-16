@@ -1,0 +1,226 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="container mt-4">
+
+    <h2>Στοιχεία Ασφαλιστηρίου</h2>
+
+    <a href="{{ url_for('policies.list_policies') }}"
+   class="btn btn-outline-primary mb-3">
+    ← Επιστροφή στα Ασφαλιστήρια
+</a>
+
+    <p>
+        <strong>Αριθμός συμβολαίου:</strong>
+        {{ policy.policy_number }}
+    </p>
+
+    <p>
+        <strong>Πελάτης:</strong>
+        {{ policy.first_name }} {{ policy.last_name }}
+    </p>
+
+    <p>
+        <strong>Ασφαλιστική:</strong>
+        {{ policy.insurer_name }}
+    </p>
+
+    <p>
+        <strong>Ασφάλιστρο:</strong>
+        {{ policy.premium }} €
+    </p>
+
+    <p>
+    <strong>Τύπος ασφάλισης:</strong>
+    {{ policy.policy_type }}
+</p>
+
+<p>
+    <strong>Ημερομηνία έναρξης:</strong>
+    {{ policy.start_date.strftime('%d/%m/%Y') }}
+</p>
+
+<p>
+    <strong>Ημερομηνία λήξης:</strong>
+    {{ policy.end_date.strftime('%d/%m/%Y') }}
+</p>
+
+<p>
+    <strong>Κατάσταση:</strong>
+
+    {% if policy.status == 'active' %}
+        <span class="badge bg-success">Ενεργό</span>
+
+    {% elif policy.status == 'expired' %}
+        <span class="badge bg-danger">Ληγμένο</span>
+
+    {% elif policy.status == 'cancelled' %}
+        <span class="badge bg-secondary">Ακυρωμένο</span>
+
+    {% elif policy.status == 'renewed' %}
+        <span class="badge bg-info text-dark">Ανανεωμένο</span>
+
+    {% elif policy.status == 'future' %}
+        <span class="badge bg-warning text-dark">Μελλοντικό</span>
+    {% endif %}
+</p>
+{% if policy.policy_type == 'motor' %}
+
+    <hr>
+
+    <h4 class="mt-4 mb-3">Στοιχεία Οχήματος</h4>
+
+    {% if motor_details %}
+
+        <p>
+            <strong>Πινακίδα:</strong>
+            {{ motor_details.plate }}
+        </p>
+
+        <p>
+            <strong>Μάρκα:</strong>
+            {{ motor_details.make or '-' }}
+        </p>
+
+        <p>
+            <strong>Μοντέλο:</strong>
+            {{ motor_details.model or '-' }}
+        </p>
+
+        <p>
+            <strong>Τύπος οχήματος:</strong>
+            {{ motor_details.vehicle_type }}
+        </p>
+
+        <p>
+            <strong>Κατηγορία κάλυψης:</strong>
+            {{ motor_details.coverage_category }}
+        </p>
+
+        <p>
+            <strong>Πακέτο:</strong>
+            {{ motor_details.package_name or '-' }}
+        </p>
+
+    {% else %}
+
+        <p class="text-muted">
+            Δεν βρέθηκαν στοιχεία οχήματος.
+        </p>
+
+    {% endif %}
+
+{% endif %}
+
+{% if policy.policy_type == 'home' %}
+
+    <hr>
+
+    <h4 class="mt-4 mb-3">Στοιχεία Κατοικίας</h4>
+
+    {% if home_details %}
+
+        <p>
+            <strong>Διεύθυνση:</strong>
+            {{ home_details.address }}
+        </p>
+
+        <p>
+            <strong>Τύπος ακινήτου:</strong>
+            {{ home_details.property_type }}
+        </p>
+
+        <p>
+            <strong>Τετραγωνικά μέτρα:</strong>
+            {{ home_details.square_meters }} τ.μ.
+        </p>
+
+        <p>
+            <strong>Ασφαλισμένο κεφάλαιο κτιρίου:</strong>
+            {{ home_details.building_coverage_amount or 0 }} €
+        </p>
+
+        <p>
+            <strong>Ασφαλισμένο κεφάλαιο περιεχομένου:</strong>
+            {{ home_details.contents_coverage_amount or 0 }} €
+        </p>
+
+        <p>
+            <strong>Κάλυψη πυρός/κλοπής:</strong>
+            {% if home_details.fire_theft_coverage %}
+                Ναι
+            {% else %}
+                Όχι
+            {% endif %}
+        </p>
+
+    {% else %}
+
+        <p class="text-muted">
+            Δεν βρέθηκαν στοιχεία κατοικίας.
+        </p>
+
+    {% endif %}
+
+{% endif %}
+
+{% if policy.policy_type == 'health' %}
+
+    <hr>
+
+    <h4 class="mt-4 mb-3">Στοιχεία Ασφάλισης Υγείας</h4>
+
+    {% if health_details %}
+
+        <p>
+            <strong>Τύπος προγράμματος:</strong>
+            {{ health_details.plan_type }}
+        </p>
+
+        <p>
+            <strong>Ονομασία προγράμματος:</strong>
+            {{ health_details.plan_name or '-' }}
+        </p>
+
+    {% else %}
+
+        <p class="text-muted">
+            Δεν βρέθηκαν στοιχεία προγράμματος υγείας.
+        </p>
+
+    {% endif %}
+
+{% endif %}
+
+{% if next_policy %}
+    <hr>
+
+    <h4>Ανανέωση Ασφαλιστηρίου</h4>
+
+    <p>
+        Το ασφαλιστήριο ανανεώθηκε με αριθμό:
+
+        <a href="{{ url_for('policies.policy_detail', policy_id=next_policy.policy_id) }}">
+            {{ next_policy.policy_number }}
+        </a>
+    </p>
+{% endif %}
+
+{% if previous_policy %}
+    <hr>
+
+    <h4>Προηγούμενο Ασφαλιστήριο</h4>
+
+    <p>
+        Το παρόν ασφαλιστήριο αποτελεί ανανέωση του:
+
+        <a href="{{ url_for('policies.policy_detail', policy_id=previous_policy.policy_id) }}">
+            {{ previous_policy.policy_number }}
+        </a>
+    </p>
+{% endif %}
+
+</div>
+
+{% endblock %}
