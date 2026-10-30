@@ -164,6 +164,8 @@ def get_customers_by_status(status="active"):
     return cursor.fetchall()
 
 def count_active_policies(customer_id):
+     # Counts active + future policies, matching POLICY_STATUS_SQL.
+    # Keep these definitions consistent if the status logic changes.
     conn = get_db()
 
     result = conn.execute("""
@@ -176,6 +178,8 @@ def count_active_policies(customer_id):
     """, (customer_id,)).fetchone()
 
     return result["active_policy_count"]
+
+
 
 def count_pending_renewals(customer_id):
     conn = get_db()

@@ -1,4 +1,5 @@
 {% extends "base.html" %}
+{% from "_macros.html" import status_badge, policy_type_label %}
 
 {% block content %}
 
@@ -29,26 +30,13 @@
 </td>
                 <td>{{ policy.first_name }} {{ policy.last_name }}</td>
                 <td>{{ policy.insurer_name }}</td>
-                <td>{{ policy.policy_type }}</td>
+                <td>{{ policy_type_label(policy.policy_type) }}</td>
                 <td>{{ policy.start_date.strftime('%d/%m/%Y') }}</td>
                 <td>{{ policy.end_date.strftime('%d/%m/%Y') }}</td>
                 <td>{{ policy.premium }} €</td>
                 <td>
-    {% if policy.status == 'active' %}
-        <span class="badge bg-success">Ενεργό</span>
+        {{ status_badge(policy.status) }}
 
-    {% elif policy.status == 'expired' %}
-        <span class="badge bg-danger">Ληγμένο</span>
-
-    {% elif policy.status == 'cancelled' %}
-        <span class="badge bg-secondary">Ακυρωμένο</span>
-
-    {% elif policy.status == 'renewed' %}
-        <span class="badge bg-info text-dark">Ανανεωμένο</span>
-
-    {% elif policy.status == 'future' %}
-        <span class="badge bg-warning text-dark">Μελλοντικό</span>
-    {% endif %}
 </td>
             </tr>
             {% else %}

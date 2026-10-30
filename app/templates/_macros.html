@@ -1,0 +1,37 @@
+
+{% macro status_badge(status) %}
+
+    {% if status == "active" %}
+        <span class="badge bg-success">Ενεργό</span>
+
+    {% elif status == "expired" %}
+        <span class="badge bg-danger">Ληγμένο</span>
+
+    {% elif status == "renewed" %}
+        <span class="badge bg-info text-dark">Ανανεωμένο</span>
+
+    {% elif status == "future" %}
+        <span class="badge bg-warning text-dark">Μελλοντικό</span>
+
+    {% elif status == "cancelled" %}
+        <span class="badge bg-secondary">Ακυρωμένο</span>
+
+    {% else %}
+        <span class="badge bg-light text-dark">Άγνωστο</span>
+    {% endif %}
+
+{% endmacro %}
+
+{% macro policy_type_label(policy_type) %}
+
+    {% if policy_type == "motor" %}
+        Όχημα
+    {% elif policy_type == "home" %}
+        Κατοικία
+    {% elif policy_type == "health" %}
+        Υγεία
+    {% else %}
+        Άγνωστος τύπος
+    {% endif %}
+
+{% endmacro %}

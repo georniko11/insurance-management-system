@@ -47,7 +47,6 @@ def customer_detail(customer_id):
 
     phones = get_customer_phones(customer_id)
     emails = get_customer_emails(customer_id)
-    active_count = count_active_policies(customer_id)
     policies = get_policies_by_customer(customer_id)
 
     return render_template(
@@ -55,7 +54,6 @@ def customer_detail(customer_id):
         customer=customer,
         phones=phones,
         emails=emails,
-        active_count=active_count,
         policies=policies
     )
 
