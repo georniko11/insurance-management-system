@@ -1,7 +1,7 @@
 import re
 from psycopg.errors import UniqueViolation
 from flask import render_template, abort, request, redirect, url_for
-
+from app.policies.queries import get_policies_by_customer
 from app.customers import customers_bp
 from app.customers.queries import (
     get_active_customers,
@@ -48,13 +48,15 @@ def customer_detail(customer_id):
     phones = get_customer_phones(customer_id)
     emails = get_customer_emails(customer_id)
     active_count = count_active_policies(customer_id)
+    policies = get_policies_by_customer(customer_id)
 
     return render_template(
         "customer_detail.html",
         customer=customer,
         phones=phones,
         emails=emails,
-        active_count=active_count
+        active_count=active_count,
+        policies=policies
     )
 
 
@@ -252,6 +254,7 @@ def archive_customer_route(customer_id):
 
         phones = get_customer_phones(customer_id)
         emails = get_customer_emails(customer_id)
+        policies = get_policies_by_customer(customer_id)
 
         return render_template(
             "customer_detail.html",
@@ -260,7 +263,8 @@ def archive_customer_route(customer_id):
             emails=emails,
             active_count=active_count,
             pending_count=pending_count,
-            archive_warning=True
+            archive_warning=True,
+            policies=policies
         )
 
     archive_customer(customer_id)

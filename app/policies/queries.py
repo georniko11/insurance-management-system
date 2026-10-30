@@ -192,3 +192,33 @@ def get_previous_policy(policy_id):
     """, (policy_id,)).fetchone()
 
     return previous_policy
+
+# ==========================================
+# 6. Ασφαλιστήρια συγκεκριμένου πελάτη
+# ==========================================
+
+def get_policies_by_customer(customer_id):
+    db = get_db()
+
+    policies = db.execute(f"""
+        SELECT
+            p.policy_id,
+            p.policy_number,
+            p.policy_type,
+            p.start_date,
+            p.end_date,
+            p.premium,
+            i.name AS insurer_name,
+            {POLICY_STATUS_SQL} AS status
+
+        FROM policies AS p
+
+        JOIN insurers AS i
+            ON p.insurer_id = i.insurer_id
+
+        WHERE p.customer_id = %s
+
+        ORDER BY p.end_date DESC, p.policy_id DESC
+    """, (customer_id,)).fetchall()
+
+    return policies
