@@ -1,4 +1,5 @@
 from flask import render_template, abort
+from flask_login import login_required
 
 from app.policies import policies_bp
 from app.policies.queries import (
@@ -13,11 +14,13 @@ from app.policies.queries import (
 
 
 @policies_bp.route("/policies")
+@login_required
 def list_policies():
     policies = get_all_policies()
     return render_template("policies/list.html", policies=policies)
 
 @policies_bp.route("/policies/<int:policy_id>")
+@login_required
 def policy_detail(policy_id):
     policy = get_policy_by_id(policy_id)
 

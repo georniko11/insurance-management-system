@@ -3,6 +3,7 @@ from psycopg.errors import UniqueViolation
 from flask import render_template, abort, request, redirect, url_for
 from app.policies.queries import get_policies_by_customer
 from app.customers import customers_bp
+from flask_login import login_required
 from app.customers.queries import (
     get_active_customers,
     get_customer_by_id,
@@ -21,6 +22,7 @@ from app.customers.queries import (
 
 
 @customers_bp.route("/customers")
+@login_required
 def list_customers():
     status = request.args.get("status", "active")
 
@@ -39,6 +41,7 @@ def list_customers():
 
 
 @customers_bp.route("/customers/<int:customer_id>")
+@login_required
 def customer_detail(customer_id):
     customer = get_customer_by_id(customer_id)
 
@@ -59,6 +62,7 @@ def customer_detail(customer_id):
 
 
 @customers_bp.route("/customers/new", methods=["GET", "POST"])
+@login_required
 def new_customer():
     if request.method == "GET":
         return render_template(
@@ -149,6 +153,7 @@ def new_customer():
 
 
 @customers_bp.route("/customers/<int:customer_id>/edit", methods=["GET", "POST"])
+@login_required
 def edit_customer(customer_id):
     customer = get_customer_by_id(customer_id)
 
@@ -236,6 +241,7 @@ def edit_customer(customer_id):
     )
 
 @customers_bp.route("/customers/<int:customer_id>/archive", methods=["POST"])
+@login_required
 def archive_customer_route(customer_id):
     customer = get_customer_by_id(customer_id)
 
@@ -270,6 +276,7 @@ def archive_customer_route(customer_id):
     return redirect(url_for("customers.list_customers"))
 
 @customers_bp.route("/customers/<int:customer_id>/unarchive", methods=["POST"])
+@login_required
 def unarchive_customer_route(customer_id):
     customer = get_customer_by_id(customer_id)
 

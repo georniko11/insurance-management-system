@@ -22,6 +22,20 @@
             <a class="nav-link" href="{{ url_for('main.home') }}">Αρχική</a>
             <a class="nav-link" href="{{ url_for('customers.list_customers') }}">Πελάτες</a>
              <a class="nav-link" href="{{ url_for('policies.list_policies') }}">Ασφαλιστήρια</a>
+            {% if current_user.is_authenticated %}
+                <span class="navbar-text ms-3">
+                {{ current_user.name }}
+                </span>
+
+<form method="POST" action="{{ url_for('auth.logout') }}" class="ms-3">
+    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+
+    <button type="submit" class="btn btn-outline-light btn-sm">
+        Αποσύνδεση
+    </button>
+</form>
+
+            {% endif %}
         </div>
     </div>
 
@@ -29,10 +43,24 @@
 
 </nav>
 
-    <div class="container-fluid px-4 mt-4">
-        {% block content %}
-        {% endblock %}
-    </div>
+
+<div class="container-fluid px-4 mt-4">
+
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            {% for category, message in messages %}
+                <div class="alert alert-{{ category }}" role="alert">
+                    {{ message }}
+                </div>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+
+    {% block content %}
+    {% endblock %}
+
+</div>
+
 
 </body>
 </html>
